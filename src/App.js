@@ -1,30 +1,37 @@
+import { useState } from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+
+import Header from './components/Header'
+import FeedbackList from './components/FeedbackList'
+import FeedbackStats from './components/FeedbackStats'
+import FeedbackForm from './components/FeedbackForm'
+import AboutPage from './pages/AboutPage'
+import AboutIconLink from './components/AboutIconLink'
+import { FeedbackProvider } from './context/FeedbackContext'
+
 function App() {
-  const title = 'Blog Post'
-  const body = 'This is my blog post'
-  const comments = [
-    {id: 1, text: 'Comment 1'},
-    {id: 2, text: 'Comment 2'},
-    {id: 3, text: 'Comment 3'}
-  ]
-  const showComments = true
-
   return (
-    <div className="container">
-      <h1>{title.toUpperCase()}</h1>
-      <p>{body}</p>
-
-      {showComments && (
-        <div className="comments">
-          <h3>Comments ({comments.length})</h3>
-          <ul>
-            {comments.map(comment => (
-              <li key={comment.id}>{comment.text}</li>
-            ))}
-          </ul>
+    <FeedbackProvider>
+      <Router>
+        <Header />
+        <div className='container'>
+          <Routes>
+            <Route
+              path='/'
+              element={
+                <>
+                  <FeedbackForm />
+                  <FeedbackStats />
+                  <FeedbackList />
+                </>
+              }
+            />
+            <Route path='/about' element={<AboutPage />} />
+          </Routes>
+          <AboutIconLink />
         </div>
-      )}
-
-    </div>
+      </Router>
+    </FeedbackProvider>
   )
 }
 
